@@ -77,6 +77,15 @@ string pMT::hash_1(string key)
  * @return a hash of the key
  */
 {
+   string hash = "";
+
+   for(std::size_t i = 0; i < key.length(); i++)
+   {
+      hash = (hash * i) + key[i];
+   }
+    //itoa (i,hash,16);
+    //hash = std::hex << hash;
+   return hash;
 }
 
 string pMT::hash_2(string key)
