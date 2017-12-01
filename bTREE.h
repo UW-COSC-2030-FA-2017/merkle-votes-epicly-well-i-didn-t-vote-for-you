@@ -10,7 +10,6 @@ class bTREE
 		int time;
 		treeNode *left;
 		treeNode *right;
-		bool leaf;
 	};
 
 private:
@@ -25,9 +24,11 @@ public:
 	bTREE();
 	~bTREE();
 
-	int dataInserted();
+	int dataInserted(treeNode *leaf);
 	
 	int numberOfNodes();
+
+	treeNode getRoot();
 
 	int insert(treeNode *node, string dat, int tim);
 
