@@ -10,8 +10,25 @@ bTREE::~bTREE()
 {
 }
 
-int bTREE::dataInserted()
+int bTREE::dataInserted(treeNode *leaf)
 {
+	// Checks if the tree is empty, and the # of leaves is 0
+	if (root == NULL)
+		return 0;
+	else
+	{
+		int isLeaf = 0;
+		if (leaf->left == NULL && leaf->right == NULL)
+		{
+			// Increments count if node has no children
+			isLeaf++;
+		}
+		// Recurse for all left and all right
+		dataInserted(leaf->left);
+		dataInserted(leaf->right);
+
+		return isLeaf;
+	}
 }
 
 int bTREE::numberOfNodesH(treeNode *leaf)
@@ -35,10 +52,14 @@ int bTREE::numberOfNodes()
 	numberOfNodesH(root);
 }
 
+treeNode bTREE::getRoot()
+{
+	return root;
+}
+
 int bTREE::insert(treeNode *node, string dat, int tim)
 {
 	// Create a node containing the data that is to be added
-	treeNode *node;
 	node->data = dat;
 	node->time = tim;
 	// If tree is empty, make new node the root
@@ -46,10 +67,12 @@ int bTREE::insert(treeNode *node, string dat, int tim)
 		root = node;
 	else
 	{
-		// 
+		// Checks if the data is larger or smaller than tree's current contents
 		if (dat > root->data)
+			// If larger, insert to the right
 			return insert(root->right, dat, tim);
 		else
+			// If smaller, insert to the left
 			return insert(root->left, dat, tim);
 	}
 }
