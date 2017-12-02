@@ -9,7 +9,6 @@ pMT::pMT(int hashSelect)
 */
 {
 	selectedHash = hashSelect;
-	hashS(hashSelect);
 }
 
 pMT::~pMT()
@@ -63,8 +62,38 @@ int pMT::findHash(string mhash)
 * @return 0 if not found, else number of opperations required to find the matching hash
 */
 {
+	return findHashH(mhash, root);
 }
 
+int pMT::findHashH(string mhash, treeNode *node)
+{
+	if (node == NULL)
+	{
+		return 0;
+	}
+	else if (node->data == mhash)
+	{
+		return 1;
+	}
+	else
+	{
+		int Left, Right;
+		Left = findHashH(mhash, node->left);
+		Right = findHashH(mhash, node->right);
+		if (Left > Right)
+		{
+			return Left + 1;
+		}
+		else if (Right > Left)
+		{
+			return Right + 1;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+}
 
 string pMT::locateData(string vote)
 /**
@@ -73,6 +102,30 @@ string pMT::locateData(string vote)
 * @return sequence of L's and R's comprising the movement to the leaf node; else return a dot '.'
 */
 {
+	locateDataH(vote, root);
+}
+
+string pMT::locateDataH(string vote, treeNode *node)
+{
+	if (node = NULL)
+	{
+		return ".";
+	}
+	else if (node->left->data == vote)
+	{
+		return "left ";
+	}
+	else if (node->right->data == vote)
+	{
+		return "right ";
+	}
+	else
+	{
+		string stringL, stringR;
+		stringL = locateDataH(vote, node->left);
+		stringR = locateDataH(vote, node->right);
+		return (stringL + stringR);
+	}	
 }
 
 string pMT::locateHash(string mhash)
@@ -82,9 +135,14 @@ string pMT::locateHash(string mhash)
 * @return sequence of L's and R's comprising the movement to the hash node, ; else return a dot '.'
 */
 {
+	locateHashH(mhash, root);
 }
 
+string pMT::locateHashH(string vote, treeNode *leaf)
+{
+	string seq = "";
 
+}
 
 string pMT::hash_1(string key)
 /**

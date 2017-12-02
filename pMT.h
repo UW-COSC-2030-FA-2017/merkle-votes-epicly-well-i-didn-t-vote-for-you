@@ -5,10 +5,17 @@
 using namespace std;
 class pMT
 {
+	struct treeNode {
+		string data;
+		int time;
+		treeNode *left;
+		treeNode *right;
+	};
 private:
 	int selectedHash;
-	bTREE myMerkle;
-
+	//bTREE myMerkle;
+	
+	treeNode *root;
 	string hash_1(string);
 	string hash_2(string);
 	string hash_3(string);
@@ -21,10 +28,14 @@ public:
 
 	int insert(string, int);
 
-	int find(string);
+	int find(string vote, int time, int hashSelect);
 	int findHash(string);
+	int findHashH(string mhash, treeNode *root);
 
-	string locate(string);
+	string locateData(string);
+	string locateDataH(string vote, treeNode *root);
+	string locateHash(string);
+	string locateHashH(string vote, treeNode *root);
 
 	friend bool operator==(const pMT& lhs, const pMT& rhs);
 

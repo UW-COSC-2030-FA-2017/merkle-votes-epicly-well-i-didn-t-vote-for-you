@@ -28,6 +28,8 @@ public:
 	
 	int numberOfNodes();
 
+	treeNode getRoot();
+
 	int insert(treeNode *node, string dat, int tim);
 
 	int find(treeNode *node, string dat);
