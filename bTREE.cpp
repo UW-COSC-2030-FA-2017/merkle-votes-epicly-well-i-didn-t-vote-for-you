@@ -95,7 +95,7 @@ int bTREE::find(treeNode *node, string dat)
 
 string bTREE::locate(treeNode *node, string dat)
 {
-	string seq = "";
+	string seq;
 	// If the node is null, the tree contains no data
 	if (node == NULL)
 		return "Empty tree";
