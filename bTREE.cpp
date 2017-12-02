@@ -52,11 +52,6 @@ int bTREE::numberOfNodes()
 	numberOfNodesH(root);
 }
 
-treeNode bTREE::getRoot()
-{
-	return root;
-}
-
 string bTREE::locate(treeNode *node, string dat)
 {
 	string seq = "";
