@@ -52,11 +52,6 @@ int bTREE::numberOfNodes()
 	numberOfNodesH(root);
 }
 
-treeNode bTREE::getRoot()
-{
-	return root;
-}
-
 int bTREE::insert(treeNode *node, string dat, int tim)
 {
 	// Create a node containing the data that is to be added
@@ -83,7 +78,7 @@ int bTREE::find(treeNode *node, string dat)
 	if (node == NULL)
 		return 1;
 
-	int sizeL, sizeR = 0;
+	int sizeL, sizeR;
 	// Check if data is found
 	if (dat == node->data)
 		// Return number of operations if data is found
@@ -97,6 +92,7 @@ int bTREE::find(treeNode *node, string dat)
 	//If data is not found in tree, return number of operations performed
 	return (sizeL + sizeR + 1);
 }
+
 string bTREE::locate(treeNode *node, string dat)
 {
 	string seq = "";
@@ -105,10 +101,7 @@ string bTREE::locate(treeNode *node, string dat)
 		return "Empty tree";
 	// If the data in the root matches, there is no sequence
 	if(dat == root->data)
-	{
-		seq = "Data in root";
-		return seq;
-	}
+		return "Data in root";
 	// If the subtree to the left of node contains the data, add an L and recurse
 	if (node->left->data == dat)
 	{
