@@ -174,7 +174,7 @@ string pMT::locateHash(string mhash)
 
 string pMT::locateHashH(string vote, treeNode *leaf)
 {
-	string seq = "";
+	string seq;
 	// If the node is null, the tree contains no data
 	if (leaf == NULL)
 		return "Empty tree";
