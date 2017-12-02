@@ -97,18 +97,31 @@ int bTREE::find(treeNode *node, string dat)
 	//If data is not found in tree, return number of operations performed
 	return (sizeL + sizeR + 1);
 }
-
 string bTREE::locate(treeNode *node, string dat)
 {
 	string seq = "";
+	// If the node is null, the tree contains no data
 	if (node == NULL)
 		return "Empty tree";
-	if(dat == node->data)
+	// If the data in the root matches, there is no sequence
+	if(dat == root->data)
 	{
-
+		seq = "Data in root";
 		return seq;
 	}
-
+	// If the subtree to the left of node contains the data, add an L and recurse
+	if (node->left->data == dat)
+	{
+		seq += "L";
+		locate(node->left, dat);
+	}
+	// If the subtree to the right of node contains the data, add an R and recurse
+	if (node->right->data == dat)
+	{
+		seq += "R";
+		locate(node->right, dat);
+	}
+	return seq;
 }
 
 void bTREE::displayLeft(std::ostream& outfile, treeNode *subtree, string prefix)
