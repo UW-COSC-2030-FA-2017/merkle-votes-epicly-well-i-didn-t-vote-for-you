@@ -14,7 +14,7 @@ class pMT
 private:
 	int selectedHash;
 	//bTREE myMerkle;
-	
+
 	treeNode *root;
 	string hash_1(string);
 	string hash_2(string);
@@ -26,9 +26,9 @@ public:
 
 	string hashS(string data);
 
-	int insert(string, int);
+	int insert(treeNode *node, string vote, int tim);
 
-	int find(string vote, int time, int hashSelect);
+	int find(treeNode *node, string vote, int tim, int hashSelect);
 	int findHash(string);
 	int findHashH(string mhash, treeNode *root);
 
