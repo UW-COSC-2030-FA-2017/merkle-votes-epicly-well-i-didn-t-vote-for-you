@@ -175,15 +175,19 @@ string pMT::locateHash(string mhash)
 string pMT::locateHashH(string vote, treeNode *leaf)
 {
 	string seq = "";
+	// If the node is null, the tree contains no data
 	if (leaf == NULL)
 		return "Empty tree";
-	if (vote == hashS(leaf->data))
+	// If the hash of the data in the root matches, there is no sequence
+	if (vote == hashS(root->data))
 		return "Data in root";
+	// If the hashed data in the subtree to the left of the node matches, add an L and recurse
 	if (hashS(root->left->data) == vote)
 	{
 		seq += "L";
 		locateHashH(vote, leaf->left);
 	}
+	// If the hashed data in the subtree to the right of the node matches, add an R and recurse
 	if (hashS(root->right->data) == vote)
 	{
 		seq += "R";
