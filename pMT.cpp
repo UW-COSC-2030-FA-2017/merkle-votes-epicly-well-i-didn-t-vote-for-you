@@ -32,7 +32,7 @@ string pMT::hashS(string data)
 	}
 }
 
-int pMT::insert(string vote, int time)
+int pMT::insert(treeNode *node, string vote, int tim)
 /**
 * @brief insert a vote and time into a leaf node of tree
 * @param vote - a string
@@ -40,10 +40,29 @@ int pMT::insert(string vote, int time)
 * @return the number of operations needed to do the insert, -1 if out of memory
 */
 {
-	
+	// Create a node containing the data that is to be added
+	node->data = vote;
+	node->time = tim;
+	// If tree is empty, make new node the root
+	if (root == NULL)
+		root = node;
+	else
+	{
+		// Checks if the data is larger or smaller than tree's current contents
+		if (vote > root->data) {
+			// If larger, insert to the right
+			hashS(node->data);
+			return insert(root->right, vote, tim);
+		}
+		else {
+			// If smaller, insert to the left
+			hashS(node->data);
+			return insert(root->left, vote, tim);
+		}
+	}
 }
 
-int pMT::find(string vote, int time, int hashSelect)
+int pMT::find(treeNode *node, string vote, int tim, int hashSelect)
 /**
 * @brief given a vote, timestamp, and hash function, does this vote exist in the tree?
 * @param vote, a string
@@ -52,7 +71,22 @@ int pMT::find(string vote, int time, int hashSelect)
 * @return 0 if not found, else number of opperations required to find the matching vote
 */
 {
+	// If node is empty, tree contains no data
+	if (node == NULL)
+		return 1;
 
+	int sizeL, sizeR;
+	// Check if data is found
+	if (node->data == vote && node->time == tim && hashSelect == selectedHash)
+		return (sizeL + sizeR + 1);
+	else
+	{
+		// If data is not yet found, recurse
+		sizeL = find(node->left, vote, tim, hashSelect);
+		sizeR = find(node->right, vote, tim, hashSelect);
+	}
+	// If data is not found in tree, return number of operations performed
+	return (sizeL + sizeR + 1);
 }
 
 int pMT::findHash(string mhash)
@@ -125,7 +159,7 @@ string pMT::locateDataH(string vote, treeNode *node)
 		stringL = locateDataH(vote, node->left);
 		stringR = locateDataH(vote, node->right);
 		return (stringL + stringR);
-	}	
+	}
 }
 
 string pMT::locateHash(string mhash)
@@ -141,7 +175,21 @@ string pMT::locateHash(string mhash)
 string pMT::locateHashH(string vote, treeNode *leaf)
 {
 	string seq = "";
-
+	if (leaf == NULL)
+		return "Empty tree";
+	if (vote == hashS(leaf->data))
+		return "Data in root";
+	if (hashS(root->left->data) == vote)
+	{
+		seq += "L";
+		locateHashH(vote, leaf->left);
+	}
+	if (hashS(root->right->data) == vote)
+	{
+		seq += "R";
+		locateHashH(vote, leaf->right);
+	}
+	return seq;
 }
 
 string pMT::hash_1(string key)
@@ -204,7 +252,7 @@ bool operator ==(const pMT& lhs, const pMT& rhs)
 */
 {
 	// If root node hashes match, the trees are equal
-	if (lhs.root->root == rhs.root->data)
+	if (lhs.root->data == rhs.root->data)
 		return true;
 	else
 		return false;
@@ -218,7 +266,11 @@ bool operator !=(const pMT& lhs, const pMT& rhs)
 * @return true if not equal, false otherwise
 */
 {
-
+	// If root node hashes don't match, the trees are not equal
+	if (lhs.root->data != rhs.root->data)
+		return true;
+	else
+		return false;
 }
 
 std::ostream& operator <<(std::ostream& out, const pMT& p)
