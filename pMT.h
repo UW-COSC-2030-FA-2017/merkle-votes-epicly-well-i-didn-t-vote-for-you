@@ -28,7 +28,8 @@ public:
 
 	int insert(treeNode *node, string vote, int tim);
 
-	int find(treeNode *node, string vote, int tim, int hashSelect);
+	int find(string vote, int tim, int hashSelect);
+	int findH(treeNode *node, string vote, int tim, int hashSelect);
 	int findHash(string);
 	int findHashH(string mhash, treeNode *root);
 

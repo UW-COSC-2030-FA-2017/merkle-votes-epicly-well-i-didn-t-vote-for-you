@@ -62,7 +62,7 @@ int pMT::insert(treeNode *node, string vote, int tim)
 	}
 }
 
-int pMT::find(treeNode *node, string vote, int tim, int hashSelect)
+int pMT::find(string vote, int tim, int hashSelect)
 /**
 * @brief given a vote, timestamp, and hash function, does this vote exist in the tree?
 * @param vote, a string
@@ -71,22 +71,40 @@ int pMT::find(treeNode *node, string vote, int tim, int hashSelect)
 * @return 0 if not found, else number of opperations required to find the matching vote
 */
 {
+	findH(root, vote, tim, hashSelect);
+}
+
+int pMT::findH(treeNode *node, string vote, int tim, int hashSelect)
+{
 	// If node is empty, tree contains no data
 	if (node == NULL)
-		return 1;
-
-	int sizeL, sizeR;
+	{
+		return 0;
+	}
 	// Check if data is found
-	if (node->data == vote && node->time == tim && hashSelect == selectedHash)
-		return (sizeL + sizeR + 1);
+	else if (node->data == vote && node->time == tim && hashSelect == selectedHash)
+	{
+		return 1;
+	}
 	else
 	{
+		int sizeL, sizeR;
 		// If data is not yet found, recurse
-		sizeL = find(node->left, vote, tim, hashSelect);
-		sizeR = find(node->right, vote, tim, hashSelect);
+		sizeL = findH(node->left, vote, tim, hashSelect);
+		sizeR = findH(node->right, vote, tim, hashSelect);
+		if (sizeL > sizeR)
+		{
+			return sizeL + 1;
+		}
+		else if (sizeR > sizeL)
+		{
+			return sizeR + 1;
+		}
+		else
+		{
+			return 0;
+		}
 	}
-	// If data is not found in tree, return number of operations performed
-	return (sizeL + sizeR + 1);
 }
 
 int pMT::findHash(string mhash)
